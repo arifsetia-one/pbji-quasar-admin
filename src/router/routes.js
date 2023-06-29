@@ -29,12 +29,12 @@ const routes = [
         component: () => import("pages/IndexPage.vue"),
       },
       {
-        path: "/user",
+        path: "/presensi",
         children: [
           {
             path: "",
-            name: "User List Page",
-            component: () => import("pages/main/user/IndexPage.vue"),
+            name: "Presensi Page",
+            component: () => import("pages/presensi/IndexPage.vue"),
           },
           {
             path: "create",
@@ -60,109 +60,6 @@ const routes = [
             path: "create",
             name: "Content Create Page",
             component: () => import("pages/main/content/CreatePage.vue"),
-          },
-        ],
-      },
-      {
-        path: "/content-category",
-        children: [
-          {
-            path: "",
-            name: "Content Category List Page",
-            component: () =>
-              import("pages/main/content-category/IndexPage.vue"),
-          },
-          {
-            path: "create",
-            name: "Content Category Create Page",
-            component: () =>
-              import("pages/main/content-category/CreatePage.vue"),
-          },
-          {
-            path: "create-2",
-            name: "Content Category Create Page 2",
-            component: () =>
-              import("pages/main/content-category/CreatePage2.vue"),
-          },
-          {
-            path: "edit/:id",
-            name: "Content Category Edit Page",
-            component: () => import("pages/main/content-category/EditPage.vue"),
-          },
-        ],
-      },
-      {
-        path: "/event",
-        children: [
-          {
-            path: "",
-            name: "Event List Page",
-            component: () => import("pages/main/event/IndexPage.vue"),
-          },
-          {
-            path: "create",
-            name: "Event Create Page",
-            component: () => import("pages/main/event/CreatePage.vue"),
-          },
-          {
-            path: "participant",
-            name: "Participant Detail Page",
-            component: () => import("pages/main/event/ParticipantPage.vue"),
-          },
-        ],
-      },
-      {
-        path: "/event-category",
-        children: [
-          {
-            path: "",
-            name: "Event Category List Page",
-            component: () => import("pages/main/event-category/IndexPage.vue"),
-          },
-          {
-            path: "create",
-            name: "Event Category Create Page",
-            component: () => import("pages/main/event-category/CreatePage.vue"),
-          },
-          {
-            path: "edit/:id",
-            name: "Event Category Edit Page",
-            component: () => import("pages/main/event-category/EditPage.vue"),
-          },
-        ],
-      },
-      {
-        path: "/form",
-        children: [
-          {
-            path: "",
-            name: "Form List Page",
-            component: () => import("pages/main/form/IndexPage.vue"),
-          },
-          {
-            path: "create",
-            name: "Form Create Page",
-            component: () => import("pages/main/form/CreatePage.vue"),
-          },
-          {
-            path: "edit/:id",
-            name: "Form Edit Page",
-            component: () => import("pages/main/form/EditPage.vue"),
-          },
-        ],
-      },
-      {
-        path: "/infaq",
-        children: [
-          {
-            path: "",
-            name: "Infaq List Page",
-            component: () => import("pages/main/infaq/IndexPage.vue"),
-          },
-          {
-            path: "detail",
-            name: "Infaq Detail Page",
-            component: () => import("pages/main/infaq/DetailPage.vue"),
           },
         ],
       },

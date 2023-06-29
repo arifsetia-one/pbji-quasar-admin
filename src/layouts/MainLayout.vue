@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header reveal elevated class="bg-primary text-white">
+    <q-header reveal elevated class="bg-red-8 text-white">
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
@@ -60,6 +60,10 @@ const confirmLogout = () => {
     await $router.push({ name: "Login Page" });
   });
 };
+
+const menu = {
+
+}
 </script>
 
 <!-- <script>

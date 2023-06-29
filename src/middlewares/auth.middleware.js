@@ -8,11 +8,11 @@ export default async function auth({ to, from, next }) {
   // Fungsi untuk menghandle error (dipakai nanti di bawah)
   const handleError = () => {
     Notify.create({
-      message: "kamu belum log in",
+      message: "silahkan log in",
       color: "negative",
       position: "bottom",
       timeout: 3000,
-      icon: "fas fa-exclamation-triangle",
+      icon: "error",
     });
     return next({ name: "Login Page" });
   };
@@ -21,11 +21,11 @@ export default async function auth({ to, from, next }) {
   // Jika tidak ada, maka redirect ke halaman login
   if (!LocalStorage.has("auth_token")) {
     Notify.create({
-      message: "kamu belum login",
+      message: "silahkan login ",
       color: "negative",
       position: "bottom",
       timeout: 3000,
-      icon: "fas fa-exclamation-triangle",
+      icon: "error",
     });
     LocalStorage.remove("auth_user");
     return next({ name: "Login Page" });

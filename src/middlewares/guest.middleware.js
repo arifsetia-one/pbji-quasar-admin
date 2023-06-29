@@ -17,7 +17,7 @@ export default async function guest({ to, from, next }) {
           color: "negative",
           position: "bottom",
           timeout: 3000,
-          icon: "fas fa-exclamation-triangle",
+          icon: "error",
         });
         return next({ name: "Dashboard Page" });
       }
