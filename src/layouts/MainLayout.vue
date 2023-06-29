@@ -1,13 +1,12 @@
 <template>
   <q-layout view="hHh lpR fFf">
-
     <q-header reveal elevated class="bg-primary text-white">
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
           </q-avatar>
           Admin Pbji
         </q-toolbar-title>
@@ -24,7 +23,7 @@
       <q-item clickable>
         <q-item-section>Tambah Atlet</q-item-section>
       </q-item>
-      <q-item clickable>
+      <q-item clickable @click="confirmLogout">
         <q-item-section>Logout</q-item-section>
       </q-item>
     </q-drawer>
@@ -32,21 +31,35 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-
   </q-layout>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed } from "vue";
+import { LocalStorage, useQuasar } from "quasar";
+import { useRouter } from "vue-router";
 
-const leftDrawerOpen = ref(false)
+const $q = useQuasar();
+const $router = useRouter();
+
+const leftDrawerOpen = ref(false);
 
 const toggleLeftDrawer = () => {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
+  leftDrawerOpen.value = !leftDrawerOpen.value;
+};
 
-
+const confirmLogout = () => {
+  $q.dialog({
+    title: "Logout",
+    message: "apakah kamu ingin keluar ?",
+    cancel: true,
+    persistent: true,
+  }).onOk(async () => {
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("auth_user");
+    await $router.push({ name: "Login Page" });
+  });
+};
 </script>
 
 <!-- <script>
@@ -65,8 +78,6 @@ export default {
   }
 }
 </script> -->
-
-
 
 <!-- <template>
   <q-layout view="lHh Lpr lFf">

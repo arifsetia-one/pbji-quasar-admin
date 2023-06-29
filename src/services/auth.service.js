@@ -1,19 +1,19 @@
-import { api } from 'src/boot/axios'
+import { api } from "src/boot/axios";
 
-export async function login (data) {
+export async function login(data) {
   try {
-    const response = await api.post('/v1/admin/auth/login', data)
-    return response?.data
+    const response = await api.post("/v1/admin/auth/login", data);
+    return response?.data;
   } catch (err) {
-    return err?.response
+    return err?.response;
   }
 }
 
-export async function getProfile () {
+export async function getProfile() {
   try {
-    const response = await api.get('/v1/admin/auth/profile')
-    return response?.data
+    const response = await api.get("/v1/admin/auth/profile");
+    return response?.data;
   } catch (err) {
-    return err?.response
+    return err?.response;
   }
 }
