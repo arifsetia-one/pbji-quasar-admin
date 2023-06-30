@@ -17,3 +17,21 @@ export async function getProfile() {
     return err?.response;
   }
 }
+
+export async function getPresence() {
+  try {
+    const response = await api.get("/v1/admin/atlet");
+    return response?.data;
+  } catch (err) {
+    return err?.response;
+  }
+}
+
+export async function presence(data) {
+  try {
+    const response = await api.post("/v1/admin/atlet/presence", data);
+    return response?.data;
+  } catch (err) {
+    return err?.response;
+  }
+}

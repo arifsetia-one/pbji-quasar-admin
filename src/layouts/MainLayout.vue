@@ -14,7 +14,27 @@
     </q-header>
 
     <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
-      <q-item clickable>
+      <q-item
+        class="GNL__drawer-item"
+        v-ripple
+        v-for="menu in menuAdmin"
+        :key="menu.title"
+        clickable
+        @click="onRouteClick(menu)"
+      >
+        <q-item-section side>
+          <q-icon side v-if="menu.icon" :name="menu.icon"
+        /></q-item-section>
+        <q-item-section>
+          <q-item-label>{{ menu.title }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item clickable @click="confirmLogout">
+        <q-item-section side><q-icon name="logout" /></q-item-section>
+        <q-item-section>Logout</q-item-section>
+      </q-item>
+
+      <!-- <q-item clickable>
         <q-item-section>Beranda</q-item-section>
       </q-item>
       <q-item clickable>
@@ -25,7 +45,7 @@
       </q-item>
       <q-item clickable @click="confirmLogout">
         <q-item-section>Logout</q-item-section>
-      </q-item>
+      </q-item> -->
     </q-drawer>
 
     <q-page-container>
@@ -61,10 +81,75 @@ const confirmLogout = () => {
   });
 };
 
-const menu = {
+const onRouteClick = (menu) => {
+  if (menu.route) {
+    $router.push(menu.route);
+  } else if (menu.callback) {
+    menu.callback();
+  }
+};
 
-}
+const menuAdmin = [
+  {
+    title: "Dashboard",
+    icon: "dashboard",
+    route: { name: "Dashboard Page" },
+  },
+  {
+    title: "presensi",
+    icon: "assignment",
+    route: { name: "Presensi Page" },
+  },
+  {
+    title: "Tambah Atlet",
+    icon: "add_circle",
+    route: { name: "Tambah Atlet Page" },
+  },
+];
 </script>
+
+<!-- <style lang="scss">
+.GNL {
+  &__toolbar {
+    height: 64px;
+  }
+
+  &__toolbar-input {
+    width: 55%;
+  }
+
+  &__drawer-item {
+    line-height: 24px;
+    border-radius: 0 24px 24px 0;
+    margin-right: 12px;
+
+    .q-item__section--avatar {
+      .q-icon {
+        color: #5f6368;
+      }
+    }
+
+    .q-item__label {
+      color: #3c4043;
+      letter-spacing: 0.01785714em;
+      font-size: 0.875rem;
+      font-weight: 500;
+      line-height: 1.25rem;
+    }
+  }
+
+  &__drawer-footer-menu {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.75rem;
+
+    &:hover {
+      color: #000;
+    }
+  }
+}
+</style> -->
 
 <!-- <script>
 import { ref } from 'vue'

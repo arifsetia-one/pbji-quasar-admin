@@ -36,30 +36,15 @@ const routes = [
             name: "Presensi Page",
             component: () => import("pages/presensi/IndexPage.vue"),
           },
-          {
-            path: "create",
-            name: "User Create Page",
-            component: () => import("pages/main/user/CreatePage.vue"),
-          },
-          {
-            path: "edit/:id",
-            name: "User Edit Page",
-            component: () => import("pages/main/user/EditPage.vue"),
-          },
         ],
       },
       {
-        path: "/content",
+        path: "/tambah-atlet",
         children: [
           {
             path: "",
-            name: "Content List Page",
-            component: () => import("pages/main/content/IndexPage.vue"),
-          },
-          {
-            path: "create",
-            name: "Content Create Page",
-            component: () => import("pages/main/content/CreatePage.vue"),
+            name: "Tambah Atlet Page",
+            component: () => import("pages/add_atlet/IndexPage.vue"),
           },
         ],
       },
