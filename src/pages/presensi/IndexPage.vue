@@ -36,6 +36,10 @@
   </div>
 
   <div class="">
+    <q-table color> </q-table>
+  </div>
+
+  <!-- <div class="">
     <q-card flat bordered>
       <q-card-section>
         <q-table
@@ -125,7 +129,7 @@
         </div>
       </q-card-section>
     </q-card>
-  </div>
+  </div> -->
 </template>
 
 <script setup>
@@ -168,131 +172,157 @@ const onSubmit = async () => {
   }
 };
 
+const loading = ref(true);
+
+const dogs = ref({});
+
 const columns = [
   {
     name: "user_id_number",
     label: "id number",
-    field: "user_id_number",
-    align: "left",
+    Field: "user_id_number",
+    align: "center",
   },
-  {
-    name: "nama",
-    label: "nama",
-    field: "nama",
-    align: "left",
-  },
+  { name: "nama", label: "nama", Field: "nama", align: "center" },
   {
     name: "created_at",
     label: "waktu presensi",
-    field: "created_at",
-    align: "left",
+    Field: "created_at",
+    align: "center",
   },
 ];
 
-const rows = ref([]);
+// GET METHOD
 
-const loading = ref(false);
-
-const showRowOption = [
-  {
-    label: "Tampilkan 5",
-    value: 5,
-  },
-  {
-    label: "Tampilkan 10",
-    value: 10,
-  },
-  {
-    label: "Tampilkan 20",
-    value: 20,
-  },
-  {
-    label: "Tampilkan 50",
-    value: 50,
-  },
-  {
-    label: "Tampilkan 100",
-    value: 100,
-  },
-];
-
-const pagesNumber = computed(() => {
-  return Math.ceil(pagination.value.rowsNumber / pagination.value.rowsPerPage);
-});
-
-const tableRef = ref();
-const pagination = ref({
-  sortBy: "created_at",
-  descending: true,
-  page: 1,
-  rowsPerPage: 5,
-  rowsNumber: null,
-});
-
-const searchKeyword = ref("");
-
-/* GET OPERATION */
-
-const getData = async () => {
-  loading.value = true;
-
-  // get pagination data
-  const { page, rowsPerPage, sortBy, descending } = pagination.value;
-
-  await getPresence({
-    params: {
-      search: searchKeyword.value,
-      page,
-      size: rowsPerPage || 999,
-      sort: {
-        name: sortBy,
-        dir: descending ? "desc" : "asc",
-      },
-      type: 0, // 0 = Post (Konten), 1 = Event
-    },
-  })
-    .then((res) => {
-      console.log("res", res);
-      pagination.value.rowsNumber = res.paginate.totalData;
-      rows.value = res.data;
-    })
-    .catch((err) => {
-      console.log("err", err);
-    })
-    .finally(() => {
-      loading.value = false;
-    });
+async () => {
+  const list = await getPresence();
 };
 
-const onRequest = (props) => {
-  console.log("onRequest", props);
-  pagination.value = props.pagination;
-  searchKeyword.value = props.filter;
-  getData();
-};
+// const columns = [
+//   {
+//     name: "user_id_number",
+//     label: "id number",
+//     field: "user_id_number",
+//     align: "left",
+//   },
+//   {
+//     name: "nama",
+//     label: "nama",
+//     field: "nama",
+//     align: "left",
+//   },
+//   {
+//     name: "created_at",
+//     label: "waktu presensi",
+//     field: "created_at",
+//     align: "left",
+//   },
+// ];
 
-const onPaginationUpdate = (pagination) => {
-  console.log("onPaginationUpdate", pagination);
-  onRequest({
-    pagination,
-    filter: searchKeyword.value,
-  });
-};
+// const rows = ref([]);
 
-// const onSearch = (keyword) => {
-//   console.log('onSearch', keyword)
-//   onRequest({
-//     pagination: pagination.value,
-//     filter: keyword
+// const loading = ref(false);
+
+// const showRowOption = [
+//   {
+//     label: "Tampilkan 5",
+//     value: 5,
+//   },
+//   {
+//     label: "Tampilkan 10",
+//     value: 10,
+//   },
+//   {
+//     label: "Tampilkan 20",
+//     value: 20,
+//   },
+//   {
+//     label: "Tampilkan 50",
+//     value: 50,
+//   },
+//   {
+//     label: "Tampilkan 100",
+//     value: 100,
+//   },
+// ];
+
+// const pagesNumber = computed(() => {
+//   return Math.ceil(pagination.value.rowsNumber / pagination.value.rowsPerPage);
+// });
+
+// const tableRef = ref();
+// const pagination = ref({
+//   sortBy: "created_at",
+//   descending: true,
+//   page: 1,
+//   rowsPerPage: 5,
+//   rowsNumber: null,
+// });
+
+// const searchKeyword = ref("");
+
+// /* GET OPERATION */
+
+// const getData = async () => {
+//   loading.value = true;
+
+//   // get pagination data
+//   const { page, rowsPerPage, sortBy, descending } = pagination.value;
+
+//   await getPresence({
+//     params: {
+//       search: searchKeyword.value,
+//       page,
+//       size: rowsPerPage || 999,
+//       sort: {
+//         name: sortBy,
+//         dir: descending ? "desc" : "asc",
+//       },
+//       type: 0, // 0 = Post (Konten), 1 = Event
+//     },
 //   })
-// }
+//     .then((res) => {
+//       console.log("res", res);
+//       pagination.value.rowsNumber = res.paginate.totalData;
+//       rows.value = res.data;
+//     })
+//     .catch((err) => {
+//       console.log("err", err);
+//     })
+//     .finally(() => {
+//       loading.value = false;
+//     });
+// };
 
-onMounted(() => {
-  // getData()
+// const onRequest = (props) => {
+//   console.log("onRequest", props);
+//   pagination.value = props.pagination;
+//   searchKeyword.value = props.filter;
+//   getData();
+// };
 
-  // get initial data from server (1st page)
-  tableRef.value.requestServerInteraction();
-});
+// const onPaginationUpdate = (pagination) => {
+//   console.log("onPaginationUpdate", pagination);
+//   onRequest({
+//     pagination,
+//     filter: searchKeyword.value,
+//   });
+// };
+
+// // const onSearch = (keyword) => {
+// //   console.log('onSearch', keyword)
+// //   onRequest({
+// //     pagination: pagination.value,
+// //     filter: keyword
+// //   })
+// // }
+
+// onMounted(() => {
+//   // getData()
+
+//   // get initial data from server (1st page)
+//   tableRef.value.requestServerInteraction();
+// });
 </script>
 
 <style>

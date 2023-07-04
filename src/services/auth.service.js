@@ -35,3 +35,12 @@ export async function presence(data) {
     return err?.response;
   }
 }
+
+export async function addUser(data) {
+  try {
+    const response = await api.post("v1/admin/user", data);
+    return response?.data;
+  } catch (err) {
+    return err?.response;
+  }
+}
