@@ -22,6 +22,7 @@
           v-model="idNumber.id_number"
           label="masukkan id-number"
           :dense="dense"
+          required
         />
         <q-btn
           label="Submit"
@@ -142,19 +143,49 @@ const onSubmit = async () => {
   try {
     const response = await presence(idNumber.value);
     const name = response.data.uname;
-    console.log(name);
+    const error = response.data.message;
+    // console.log(error);
+    // console.log(name);
 
-    $q.notify({
-      message: "hi " + name + " , anda berhasil presensi !!",
-      color: "positive",
-      position: "bottom",
-      timeout: 2000,
-      icon: "check_circle",
-    });
+    // if (response.status === 422) {
+    //   console.log("wklwkwkw");
+    // } else {
+    //   console.log("jajajaj");
+    // }
 
-    await setTimeout(function () {
-      window.location.reload(1);
-    }, 50);
+    if (response.status === 200) {
+      $q.notify({
+        message: "hi " + name + " , anda berhasil presensi !!",
+        color: "positive",
+        position: "bottom",
+        timeout: 2000,
+        icon: "check_circle",
+      });
+
+      await setTimeout(function () {
+        window.location.reload(1);
+      }, 1000);
+    } else {
+      $q.notify({
+        message: error + " !!",
+        color: "negative",
+        position: "bottom",
+        timeout: 2000,
+        icon: "error",
+      });
+    }
+
+    // $q.notify({
+    //   message: "hi " + name + " , anda berhasil presensi !!",
+    //   color: "positive",
+    //   position: "bottom",
+    //   timeout: 2000,
+    //   icon: "check_circle",
+    // });
+
+    // await setTimeout(function () {
+    //   window.location.reload(1);
+    // }, 200);
   } catch (err) {
     console.log("err", err);
   } finally {

@@ -10,13 +10,34 @@
             </q-card-section>
             <q-form @submit.prevent="onSubmit">
               <q-card-section>
-                <q-input dense outlined v-model="input.username" label="username"></q-input>
-                <q-input dense outlined class="q-mt-md" v-model="input.password" type="password"
-                  label="Password"></q-input>
+                <q-input
+                  dense
+                  outlined
+                  v-model="input.username"
+                  label="username"
+                ></q-input>
+                <q-input
+                  dense
+                  outlined
+                  class="q-mt-md"
+                  v-model="input.password"
+                  type="password"
+                  label="Password"
+                ></q-input>
               </q-card-section>
               <q-card-section>
-                <q-btn style="border-radius: 8px" type="submit" color="dark" rounded size="md" label="Masuk" no-caps
-                  class="full-width" :disable="submitting" :loading="submitting"></q-btn>
+                <q-btn
+                  style="border-radius: 8px"
+                  type="submit"
+                  color="red-8"
+                  rounded
+                  size="md"
+                  label="Masuk"
+                  no-caps
+                  class="full-width"
+                  :disable="submitting"
+                  :loading="submitting"
+                ></q-btn>
               </q-card-section>
             </q-form>
             <!-- <q-card-section class="text-center q-pt-none">
