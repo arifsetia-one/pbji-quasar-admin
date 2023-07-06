@@ -298,6 +298,8 @@ onMounted(() => {
   // get initial data from server (1st page)
   tableRef.value.requestServerInteraction();
 });
+
+// ahihihihihi
 </script>
 
 <style>
