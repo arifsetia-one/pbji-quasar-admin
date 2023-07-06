@@ -35,18 +35,14 @@
     <div class="col-2"></div>
   </div>
 
-  <div class="">
-    <q-table color> </q-table>
-  </div>
-
-  <!-- <div class="">
+  <div class="q-pt-xl q-pl-xl q-pr-xl q-pb-xl">
     <q-card flat bordered>
       <q-card-section>
         <q-table
           flat
           ref="tableRef"
           :rows="rows"
-          row-key="uuid"
+          row-key="id"
           :columns="columns"
           :filter="searchKeyword"
           @request="onRequest"
@@ -82,13 +78,6 @@
                 <q-icon name="search"></q-icon>
               </template>
             </q-input>
-            <q-btn
-              :to="{ name: 'Content Category Create Page' }"
-              class="q-ml-lg"
-              color="primary"
-              :disable="loading"
-              label="Tambah"
-            ></q-btn>
           </template>
           <template v-slot:body-cell-index="props">
             <q-td :props="props" auto-width>
@@ -129,16 +118,17 @@
         </div>
       </q-card-section>
     </q-card>
-  </div> -->
+  </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { presence, getPresence } from "src/services/auth.service";
+import { getAPI } from "src/services/fetch.service";
 import { useQuasar } from "quasar";
 
-const $router = useRouter();
+// const $router = useRouter();
 const $q = useQuasar();
 
 const idNumber = ref({
@@ -172,157 +162,142 @@ const onSubmit = async () => {
   }
 };
 
-const loading = ref(true);
-
-const dogs = ref({});
-
+// GET METHOD
 const columns = [
   {
-    name: "user_id_number",
-    label: "id number",
-    Field: "user_id_number",
-    align: "center",
+    name: "index",
+    label: "No.",
+    field: "index",
+    align: "left",
   },
-  { name: "nama", label: "nama", Field: "nama", align: "center" },
+  {
+    name: "nama",
+    label: "Nama",
+    field: "nama",
+    align: "left",
+    required: true,
+    sortable: true,
+  },
+  {
+    name: "user_id_number",
+    label: "Id Number",
+    field: "user_id_number",
+    align: "left",
+    sortable: true,
+  },
   {
     name: "created_at",
-    label: "waktu presensi",
-    Field: "created_at",
-    align: "center",
+    label: "Waktu Presensi",
+    field: "created_at",
+    align: "left",
+    sortable: true,
   },
 ];
 
-// GET METHOD
+const rows = ref([]);
 
-async () => {
-  const list = await getPresence();
+const loading = ref(false);
+
+const rowsPerPageOptions = [
+  {
+    label: "Tampilkan 5",
+    value: 5,
+  },
+  {
+    label: "Tampilkan 10",
+    value: 10,
+  },
+  {
+    label: "Tampilkan 20",
+    value: 20,
+  },
+  {
+    label: "Tampilkan 50",
+    value: 50,
+  },
+  {
+    label: "Tampilkan 100",
+    value: 100,
+  },
+];
+
+const pagesNumber = computed(() => {
+  return Math.ceil(pagination.value.rowsNumber / pagination.value.rowsPerPage);
+});
+
+const tableRef = ref();
+const pagination = ref({
+  sortBy: "created_at",
+  descending: true,
+  page: 1,
+  rowsPerPage: 5,
+  rowsNumber: null,
+});
+
+const searchKeyword = ref("");
+
+/* GET OPERATION */
+
+const getData = async () => {
+  loading.value = true;
+
+  // get pagination data
+  const { page, rowsPerPage, sortBy, descending } = pagination.value;
+
+  await getAPI("/v1/admin/atlet", {
+    params: {
+      search: searchKeyword.value,
+      page,
+      size: rowsPerPage || 999,
+      sort: {
+        name: sortBy,
+        dir: descending ? "desc" : "asc",
+      },
+      type: 0, // 0 = Post (Konten), 1 = Event
+    },
+  })
+    .then((res) => {
+      console.log("res", res);
+      pagination.value.rowsNumber = res.paginate.totalData;
+      rows.value = res.data;
+    })
+    .catch((err) => {
+      console.log("err", err);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 };
 
-// const columns = [
-//   {
-//     name: "user_id_number",
-//     label: "id number",
-//     field: "user_id_number",
-//     align: "left",
-//   },
-//   {
-//     name: "nama",
-//     label: "nama",
-//     field: "nama",
-//     align: "left",
-//   },
-//   {
-//     name: "created_at",
-//     label: "waktu presensi",
-//     field: "created_at",
-//     align: "left",
-//   },
-// ];
+const onRequest = (props) => {
+  console.log("onRequest", props);
+  pagination.value = props.pagination;
+  searchKeyword.value = props.filter;
+  getData();
+};
 
-// const rows = ref([]);
+const onPaginationUpdate = (pagination) => {
+  console.log("onPaginationUpdate", pagination);
+  onRequest({
+    pagination,
+    filter: searchKeyword.value,
+  });
+};
 
-// const loading = ref(false);
-
-// const showRowOption = [
-//   {
-//     label: "Tampilkan 5",
-//     value: 5,
-//   },
-//   {
-//     label: "Tampilkan 10",
-//     value: 10,
-//   },
-//   {
-//     label: "Tampilkan 20",
-//     value: 20,
-//   },
-//   {
-//     label: "Tampilkan 50",
-//     value: 50,
-//   },
-//   {
-//     label: "Tampilkan 100",
-//     value: 100,
-//   },
-// ];
-
-// const pagesNumber = computed(() => {
-//   return Math.ceil(pagination.value.rowsNumber / pagination.value.rowsPerPage);
-// });
-
-// const tableRef = ref();
-// const pagination = ref({
-//   sortBy: "created_at",
-//   descending: true,
-//   page: 1,
-//   rowsPerPage: 5,
-//   rowsNumber: null,
-// });
-
-// const searchKeyword = ref("");
-
-// /* GET OPERATION */
-
-// const getData = async () => {
-//   loading.value = true;
-
-//   // get pagination data
-//   const { page, rowsPerPage, sortBy, descending } = pagination.value;
-
-//   await getPresence({
-//     params: {
-//       search: searchKeyword.value,
-//       page,
-//       size: rowsPerPage || 999,
-//       sort: {
-//         name: sortBy,
-//         dir: descending ? "desc" : "asc",
-//       },
-//       type: 0, // 0 = Post (Konten), 1 = Event
-//     },
-//   })
-//     .then((res) => {
-//       console.log("res", res);
-//       pagination.value.rowsNumber = res.paginate.totalData;
-//       rows.value = res.data;
-//     })
-//     .catch((err) => {
-//       console.log("err", err);
-//     })
-//     .finally(() => {
-//       loading.value = false;
-//     });
-// };
-
-// const onRequest = (props) => {
-//   console.log("onRequest", props);
-//   pagination.value = props.pagination;
-//   searchKeyword.value = props.filter;
-//   getData();
-// };
-
-// const onPaginationUpdate = (pagination) => {
-//   console.log("onPaginationUpdate", pagination);
+// const onSearch = (keyword) => {
+//   console.log('onSearch', keyword)
 //   onRequest({
-//     pagination,
-//     filter: searchKeyword.value,
-//   });
-// };
+//     pagination: pagination.value,
+//     filter: keyword
+//   })
+// }
 
-// // const onSearch = (keyword) => {
-// //   console.log('onSearch', keyword)
-// //   onRequest({
-// //     pagination: pagination.value,
-// //     filter: keyword
-// //   })
-// // }
+onMounted(() => {
+  // getData()
 
-// onMounted(() => {
-//   // getData()
-
-//   // get initial data from server (1st page)
-//   tableRef.value.requestServerInteraction();
-// });
+  // get initial data from server (1st page)
+  tableRef.value.requestServerInteraction();
+});
 </script>
 
 <style>
