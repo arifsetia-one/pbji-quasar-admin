@@ -14,17 +14,10 @@
     </q-header>
 
     <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
-      <q-item
-        class="GNL__drawer-item"
-        v-ripple
-        v-for="menu in menuAdmin"
-        :key="menu.title"
-        clickable
-        @click="onRouteClick(menu)"
-      >
+      <q-item class="GNL__drawer-item" v-ripple v-for="menu in menuAdmin" :key="menu.title" clickable
+        @click="onRouteClick(menu)">
         <q-item-section side>
-          <q-icon side v-if="menu.icon" :name="menu.icon"
-        /></q-item-section>
+          <q-icon side v-if="menu.icon" :name="menu.icon" /></q-item-section>
         <q-item-section>
           <q-item-label>{{ menu.title }}</q-item-label>
         </q-item-section>
@@ -90,11 +83,11 @@ const onRouteClick = (menu) => {
 };
 
 const menuAdmin = [
-  {
-    title: "Dashboard",
-    icon: "dashboard",
-    route: { name: "Dashboard Page" },
-  },
+  // {
+  //   title: "Dashboard",
+  //   icon: "dashboard",
+  //   route: { name: "Dashboard Page" },
+  // },
   {
     title: "presensi",
     icon: "assignment",
