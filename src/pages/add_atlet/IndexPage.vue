@@ -38,6 +38,12 @@
             label="password"
             :dense="dense"
           />
+          <q-input
+            v-model="inputValue.full_addresses"
+            label="alamat lengkap"
+            :dense="dense"
+            type="textarea"
+          />
           <!-- <q-input v-model="text" label="photo" :dense="dense" /> -->
           <!-- <q-input v-model="text" label="role" :dense="dense" /> -->
         </div>
@@ -67,6 +73,7 @@ const inputValue = ref({
   fullname: "",
   id_number: "",
   password: "",
+  full_addresses: "",
   // photo_url: "",
   roles: ["Atlet"],
 });

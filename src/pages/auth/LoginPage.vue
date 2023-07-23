@@ -79,24 +79,54 @@ const onSubmit = async () => {
 
   try {
     const response = await login(input.value);
-    console.log(response);
+    // console.log(response.status);
 
-    localStorage.setItem("auth_token", response.data.token);
+    if (response.status === 200) {
+      localStorage.setItem("auth_token", response.data.token);
 
-    $q.notify({
-      message: "Login success!",
-      color: "positive",
-      position: "top",
-      timeout: 2000,
-      icon: "check_circle",
-    });
+      $q.notify({
+        message: "Login success!",
+        color: "positive",
+        position: "top",
+        timeout: 2000,
+        icon: "check_circle",
+      });
 
-    await $router.push({ name: "Dashboard Page" });
+      await $router.push({ name: "Dashboard Page" });
+    } else {
+      $q.notify({
+        message: "username atau password salah !",
+        color: "negative",
+        position: "top",
+        timeout: 2000,
+        icon: "error",
+      });
+    }
   } catch (err) {
     console.log("err", err);
   } finally {
     submitting.value = false;
   }
+  // try {
+  //   const response = await login(input.value);
+  //   console.log(response);
+
+  //   localStorage.setItem("auth_token", response.data.token);
+
+  // $q.notify({
+  //   message: "Login success!",
+  //   color: "positive",
+  //   position: "top",
+  //   timeout: 2000,
+  //   icon: "check_circle",
+  // });
+
+  //   await $router.push({ name: "Dashboard Page" });
+  // } catch (err) {
+  //   console.log("err", err);
+  // } finally {
+  //   submitting.value = false;
+  // }
 };
 
 // import { Quasar } from "Quasar";
