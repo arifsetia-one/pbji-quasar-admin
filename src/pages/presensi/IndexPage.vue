@@ -39,6 +39,7 @@
   <div class="q-pt-xl q-pl-xl q-pr-xl q-pb-xl">
     <q-card flat bordered>
       <q-card-section>
+        <div class="text-h6 q-pl-md">Tabel Presensi</div>
         <q-table
           flat
           ref="tableRef"
@@ -124,7 +125,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 import { presence, getPresence } from "src/services/auth.service";
 import { getAPI } from "src/services/fetch.service";
 import { useQuasar } from "quasar";

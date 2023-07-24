@@ -27,6 +27,15 @@ export async function getPresence() {
   }
 }
 
+export async function getListUser() {
+  try {
+    const response = await api.get("/v1/admin/user");
+    return response?.data;
+  } catch (err) {
+    return err?.response;
+  }
+}
+
 export async function presence(data) {
   try {
     const response = await api.post("/v1/admin/atlet/presence", data);
